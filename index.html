@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Bhumi 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Floating Hearts Background */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 18px;
+            animation: float 15s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s, transform 1s;
+            padding: 20px;
+        }
+
+        .welcome-screen.hidden {
+            opacity: 0;
+            transform: scale(1.2);
+            pointer-events: none;
+        }
+
+        .welcome-text {
+            font-size: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        .name-reveal {
+            font-size: 3.5rem;
+            color: white;
+            text-shadow: 0 0 30px rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            }
+            50% {
+                text-shadow: 0 0 40px rgba(255,255,255,1), 0 0 60px rgba(255,255,255,0.8);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .enter-btn {
+            padding: 18px 45px;
+            font-size: 1.3rem;
+            background: white;
+            color: #f5576c;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Main Content */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 30px 15px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .container.visible {
+            opacity: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideDown 1s ease-out;
+            padding: 0 15px;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            color: white;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .header .name-highlight {
+            font-size: 2.8rem;
+            color: #FFD700;
+            text-shadow: 0 0 30px rgba(255,215,0,0.8);
+            display: block;
+            margin: 10px 0;
+            animation: glow 2s infinite;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Countdown Section */
+        .countdown-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 15px;
+            margin: 40px 15px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .countdown-title {
+            font-size: 1.4rem;
+            color: #f5576c;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 10px;
+            border-radius: 15px;
+            min-width: 70px;
+            flex: 1;
+            max-width: 80px;
+        }
+
+        .time-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .time-label {
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        /* Photo Gallery Section */
+        .photo-section {
+            margin: 50px 0;
+            text-align: center;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            line-height: 1.4;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            transition: all 0.5s;
+            cursor: pointer;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .photo-card:active {
+            transform: scale(0.98);
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Love Notes Section */
+        .notes-section {
+            margin: 50px 0;
+            padding: 0 15px;
+        }
+
+        .note-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin: 25px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+            opacity: 1;
+            transform: translateX(0);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .note-card:active {
+            transform: scale(0.98);
+        }
+
+        .note-card::before {
+            content: '💕';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 6rem;
+            opacity: 0.1;
+        }
+
+        .note-card p {
+            font-size: 1.15rem;
+            color: #333;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Popup emoji animation */
+        .popup-emoji {
+            position: fixed;
+            font-size: 2.5rem;
+            pointer-events: none;
+            z-index: 9999;
+            animation: popupFloat 2s ease-out forwards;
+        }
+
+        @keyframes popupFloat {
+            0% {
+                transform: translate(-50%, -50%) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
+                opacity: 1;
+            }
+            40% {
+                transform: translate(-50%, -70px) scale(1) rotate(-5deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -150px) scale(0.5) rotate(15deg);
+                opacity: 0;
+            }
+        }
+
+        /* Interactive Love Button */
+        .love-button-section {
+            text-align: center;
+            margin: 60px 0;
+            padding: 0 15px;
+        }
+
+        .love-button {
+            padding: 22px 40px;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.5);
+            animation: heartbeat 2s infinite;
+            font-weight: bold;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.1);
+            }
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        .love-button:active {
+            transform: scale(1.15);
+        }
+
+        .love-message {
+            margin-top: 25px;
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            opacity: 0;
+            transition: opacity 0.5s;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .love-message.show {
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin: 60px 0 30px 0;
+            color: white;
+            font-size: 1.3rem;
+            padding: 0 15px;
+        }
+
+        .footer p {
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        /* Modal for photos */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 15px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2.5rem;
+            color: white;
+            cursor: pointer;
+            z-index: 2001;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-text">
+            💖 Something special for 💖
+        </div>
+        <div class="name-reveal">✨ Bhumi ✨</div>
+        <button class="enter-btn" onclick="enterSite()">Open My Heart 💕</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container" id="mainContent">
+        <!-- Header -->
+        <div class="header">
+            <h1>Happy Birthday</h1>
+            <span class="name-highlight">Bhumi! 🎂💕</span>
+            <p>Today is all about celebrating YOU, my queen! 👑</p>
+        </div>
+
+        <!-- Countdown Section -->
+        <div class="countdown-section">
+            <div class="countdown-title">Time We've Been Together 💑</div>
+            <div class="countdown" id="countdown">
+                <div class="time-box">
+                    <div class="time-value" id="days">0</div>
+                    <div class="time-label">Days</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="hours">0</div>
+                    <div class="time-label">Hours</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="minutes">0</div>
+                    <div class="time-label">Minutes</div>
+                </div>
+                <div class="time-box">
+                    <div class="time-value" id="seconds">0</div>
+                    <div class="time-label">Seconds</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Gallery -->
+        <div class="photo-section">
+            <h2 class="section-title">Some pics of my<br>whole world ❤️💝</h2>
+            <div class="photo-grid">
+                <div class="photo-card" onclick="openModal(this)">
+                    <div class="photo-placeholder">
+                          <img src="1.jpg.jpg" style="width:100%; height:100%; object-fit:cover; border-radius:15px;">
+                        Bhumi's Beautiful Photo 1 💕
+                    </div>
+                </div>
+                <div class="photo-card" onclick="openModal(this)">
+                    <div class="photo-placeholder">
+                         <img src="2.jpg.jpg" style="width:100%; height:100%; object-fit:cover; border-radius:15px;"> 
+                        Bhumi's Beautiful Photo 2 💕
+                    </div>
+                </div>
+                <div class="photo-card" onclick="openModal(this)">
+                    <div class="photo-placeholder">
+                       <img src="3.jpg.jpg" style="width:100%; height:100%; object-fit:cover; border-radius:15px;">
+                        Bhumi's Beautiful Photo 3 💕
+                    </div>
+                </div>
+                <div class="photo-card" onclick="openModal(this)">
+                    <div class="photo-placeholder">
+                         <img src="4.jpg.jpg" style="width:100%; height:100%; object-fit:cover; border-radius:15px;">
+                        Bhumi's Beautiful Photo 4 💕
+                    </div>
+                </div>
+                <div class="photo-card" onclick="openModal(this)">
+                    <div class="photo-placeholder">
+                         <img src="5.jpg.jpg" style="width:100%; height:100%; object-fit:cover; border-radius:15px;"> 
+                        Bhumi's Beautiful Photo 5 💕
+                    </div>
+                </div>
+                <div class="photo-card" onclick="openModal(this)">
+                    <div class="photo-placeholder">
+                         <img src="6.jpg.jpg" style="width:100%; height:100%; object-fit:cover; border-radius:15px;">
+                        Bhumi's Beautiful Photo 6 💕
+                    </div>
+                </div>
+                <div class="photo-card" onclick="openModal(this)">
+                    <div class="photo-placeholder">
+                        <img src="7.jpg.jpg" style="width:100%; height:100%; object-fit:cover; border-radius:15px;"> 
+                        Bhumi's Beautiful Photo 7 💕
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Love Notes -->
+        <div class="notes-section">
+            <h2 class="section-title">Messages From My Heart 💌</h2>
+            
+            <div class="note-card" onclick="showEmojiPop(event)">
+                <p>Happy Birthday meri jaan 🙂💕</p>
+            </div>
+
+            <div class="note-card" onclick="showEmojiPop(event)">
+                <p>I wish bhagwan aapko hameshaaa smile krate rhe and hamesha khush rakhe aur mai aapko dekh dekh ke khush hota rahu 🤗💝</p>
+            </div>
+
+            <div class="note-card" onclick="showEmojiPop(event)">
+                <p>You are my life because You are my hone wali wife 😘😂</p>
+            </div>
+
+            <div class="note-card" onclick="showEmojiPop(event)">
+                <p>You are my peace, my happiness, and my forever. With you, every dream feels possible.</p>
+            </div>
+
+            <div class="note-card" onclick="showEmojiPop(event)">
+                <p>You don't just live in my heart… you are queen of it 🤗 💖</p>
+            </div>
+
+            <div class="note-card" onclick="showEmojiPop(event)">
+                <p>Loving you feels like coming home. Only you 💖</p>
+            </div>
+
+            <div class="note-card" onclick="showEmojiPop(event)">
+                <p>Forever starts with you. My always. Mine. Always.</p>
+            </div>
+        </div>
+
+        <!-- Interactive Love Button -->
+        <div class="love-button-section">
+            <button class="love-button" onclick="showLove()">
+                Click to Feel My Love 💕
+            </button>
+            <div class="love-message" id="loveMessage">
+                I LOVE YOU BHUMI! 💖💖💖
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Forever Yours, With All My Love 💕</p>
+            <p style="margin-top: 15px; font-size: 1.1rem;">You make every day feel like magic ✨</p>
+        </div>
+    </div>
+
+    <!-- Modal for photos -->
+    <div class="modal" id="photoModal" onclick="closeModal()">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            const hearts = ['💕', '💖', '💗', '💝', '💘', '❤️', '🧡', '💛'];
+            
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // Enter site animation
+        function enterSite() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('mainContent').classList.add('visible');
+            }, 500);
+        }
+
+        // Show love message
+        let loveClicks = 0;
+        const loveMessages = [
+            "I LOVE YOU BHUMI! 💖💖💖",
+            "BHUMI, YOU ARE MY EVERYTHING! 🌟✨",
+            "MY HEART BEATS ONLY FOR YOU BHUMI! 💓💓",
+            "BHUMI, YOU MAKE MY WORLD COMPLETE! 🌍💕",
+            "FOREVER AND ALWAYS YOURS BHUMI! 💍💖"
+        ];
+
+        function showLove() {
+            const message = document.getElementById('loveMessage');
+            message.textContent = loveMessages[loveClicks % loveMessages.length];
+            message.classList.add('show');
+            loveClicks++;
+            
+            // Create explosion of hearts
+            for (let i = 0; i < 20; i++) {
+                createFloatingHeart();
+            }
+        }
+
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.textContent = '💖';
+            heart.style.position = 'fixed';
+            heart.style.fontSize = '2rem';
+            heart.style.left = '50%';
+            heart.style.top = '50%';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '9999';
+            document.body.appendChild(heart);
+
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 5 + 3;
+            const vx = Math.cos(angle) * velocity;
+            const vy = Math.sin(angle) * velocity;
+
+            let x = 0, y = 0;
+            const animate = () => {
+                x += vx;
+                y += vy;
+                heart.style.transform = `translate(${x}px, ${y}px) scale(${1 - Math.abs(y) / 300})`;
+                heart.style.opacity = 1 - Math.abs(y) / 300;
+
+                if (Math.abs(y) < 300) {
+                    requestAnimationFrame(animate);
+                } else {
+                    heart.remove();
+                }
+            };
+            animate();
+        }
+
+        // Popup emoji when clicking on note cards
+        function showEmojiPop(event) {
+            const emojis = ['💕', '💖', '💗', '💝', '💘', '❤️', '😍', '🥰', '💑', '👑', '✨', '🌟', '💫', '🎀', '🌹', '💐', '🦋', '🌈'];
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            const emoji = document.createElement('div');
+            emoji.className = 'popup-emoji';
+            emoji.textContent = randomEmoji;
+            emoji.style.left = event.clientX + 'px';
+            emoji.style.top = event.clientY + 'px';
+            
+            document.body.appendChild(emoji);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                emoji.remove();
+            }, 2000);
+        }
+
+        // Countdown timer - Started dating: August 28, 2024 at 10:30 PM
+        function updateCountdown() {
+            const startDate = new Date(2024, 7, 28, 22, 30, 0); // Month is 0-indexed, so 7 = August
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        // Modal functions
+        function openModal(card) {
+            const img = card.querySelector('img');
+            if (img) {
+                document.getElementById('modalImage').src = img.src;
+                document.getElementById('photoModal').classList.add('show');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('photoModal').classList.remove('show');
+        }
+
+        // Initialize
+        createHearts();
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
